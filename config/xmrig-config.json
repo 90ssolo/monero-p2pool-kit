@@ -1,0 +1,29 @@
+{
+  "autosave": true,
+  "cpu": {
+    "enabled": true,
+    "huge-pages": true,
+    "huge-pages-jit": true,
+    "1gb-pages": true,
+    "rx": null
+  },
+  "randomx": {
+    "init": -1,
+    "mode": "auto",
+    "1gb-pages": true,
+    "rdmsr": true,
+    "wrmsr": true,
+    "numa": true
+  },
+  "pools": [
+    {
+      "coin": "monero",
+      "algo": "rx/0",
+      "url": "127.0.0.1:3333",
+      "user": "worker1",
+      "pass": "x",
+      "keepalive": true,
+      "tls": false
+    }
+  ]
+}

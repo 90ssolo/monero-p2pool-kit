@@ -1,0 +1,58 @@
+services:
+  monerod:
+    image: sethsimmons/simple-monerod:latest
+    container_name: p2pool-monerod
+    restart: unless-stopped
+    stop_grace_period: 2m
+    volumes:
+      - bitmonero-data:/home/monero/.bitmonero
+    ports:
+      - "18080:18080"
+      - "127.0.0.1:18081:18081"
+      - "127.0.0.1:18083:18083"
+      - "18089:18089"
+    command:
+      - "--prune-blockchain"
+      - "--sync-pruned-blocks"
+      - "--p2p-bind-ip=0.0.0.0"
+      - "--p2p-bind-port=18080"
+      - "--rpc-bind-ip=0.0.0.0"
+      - "--rpc-bind-port=18081"
+      - "--rpc-restricted-bind-ip=0.0.0.0"
+      - "--rpc-restricted-bind-port=18089"
+      - "--zmq-pub=tcp://0.0.0.0:18083"
+      - "--enable-dns-blocklist"
+      - "--no-igd"
+      - "--confirm-external-bind"
+      - "--non-interactive"
+
+  p2pool:
+    image: sethsimmons/p2pool:latest
+    container_name: p2pool-node
+    restart: unless-stopped
+    depends_on:
+      - monerod
+    volumes:
+      - p2pool-data:/home/p2pool/.p2pool
+    ports:
+      # Local Stratum port for XMRig workers
+      - "${STRATUM_BIND_IP:-127.0.0.1}:3333:3333"
+      # P2Pool P2P sidechain ports (37888 = Mini, 37889 = Main)
+      - "37888:37888"
+      - "37889:37889"
+    command:
+      - "--host"
+      - "monerod"
+      - "--rpc-port"
+      - "18081"
+      - "--zmq-port"
+      - "18083"
+      - "--wallet"
+      - "${MONERO_PRIMARY_ADDRESS:?Set your 4... primary Monero address in .env}"
+      - "--stratum"
+      - "0.0.0.0:3333"
+      - "${P2POOL_CHAIN_FLAG:---mini}"
+
+volumes:
+  bitmonero-data:
+  p2pool-data:

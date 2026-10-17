@@ -1,0 +1,21 @@
+[Unit]
+Description=Monero P2Pool Decentralized Mining Pool Node
+After=network-online.target monerod.service
+Requires=monerod.service
+
+[Service]
+Type=simple
+User=p2pool
+Group=p2pool
+WorkingDirectory=/var/lib/p2pool
+ExecStart=/usr/local/bin/p2pool --host 127.0.0.1 --rpc-port 18081 --zmq-port 18083 --wallet 48VWHdLTEpE5dqa5VpAy5xgQWBHZARiGmEmojNLqD4ef1FAzkPxCe9JXUYwCShRR5XNMGnyusrnkmMWr2HMdfDRx2vsrG7c --stratum 127.0.0.1:3333 --mini
+Restart=always
+RestartSec=10
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/p2pool
+
+[Install]
+WantedBy=multi-user.target

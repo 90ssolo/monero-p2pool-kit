@@ -1,0 +1,12 @@
+{
+  "name": "monero-p2pool-kit",
+  "version": "1.0.0",
+  "description": "Configuration kit, Docker Compose stack, systemd units, and primary address validator for mining Monero (XMR) with monerod (ZMQ), P2Pool (Mini/Main), and XMRig.",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "test": "node scripts/validate.mjs",
+    "validate": "node scripts/validate.mjs",
+    "generate": "node scripts/generate-config.mjs"
+  }
+}

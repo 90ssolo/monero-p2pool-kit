@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 390" width="100%" height="auto" role="img" aria-label="Monero P2Pool Architecture">
+  <rect width="1200" height="390" rx="14" fill="#0d1117" stroke="#30363d" stroke-width="2"/>
+
+  <text x="36" y="42" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="20" font-weight="800" fill="#f0f6fc">How monerod, P2Pool, and XMRig Connect</text>
+  <text x="36" y="66" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="13.5" fill="#8b949e">Every miner validates their own blocks via monerod and gets paid directly in the Monero coinbase transaction with zero pool custody</text>
+
+  <g transform="translate(36, 98)" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">
+    <!-- Box 1: monerod -->
+    <rect x="0" y="0" width="340" height="252" rx="10" fill="#161b22" stroke="#ff6600" stroke-width="1.5"/>
+    <rect x="0" y="0" width="340" height="38" rx="10" fill="#24160e"/>
+    <text x="18" y="24" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="#ff6600">1. monerod (Local Node)</text>
+    <text x="18" y="64" font-size="12" fill="#f0f6fc">• P2P Network (:18080)</text>
+    <text x="18" y="92" font-size="12" fill="#f0f6fc">• RPC Server (127.0.0.1:18081)</text>
+    <text x="18" y="120" font-size="12" fill="#3fb950" font-weight="700">• ZMQ Publisher (127.0.0.1:18083)</text>
+    <text x="18" y="142" font-size="11" fill="#8b949e">  Pushes new block templates &amp; txpool</text>
+    <text x="18" y="160" font-size="11" fill="#8b949e">  events to P2Pool in sub-millisecond</text>
+    <rect x="18" y="196" width="304" height="36" rx="6" fill="#0d1117" stroke="#30363d"/>
+    <text x="28" y="218" font-size="11" fill="#c9d1d9">--zmq-pub tcp://127.0.0.1:18083</text>
+
+    <text x="364" y="128" font-size="22" font-weight="700" fill="#ff6600">↔</text>
+
+    <!-- Box 2: P2Pool -->
+    <rect x="394" y="0" width="340" height="252" rx="10" fill="#161b22" stroke="#3fb950" stroke-width="1.5"/>
+    <rect x="394" y="0" width="340" height="38" rx="10" fill="#102418"/>
+    <text x="412" y="24" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="#3fb950">2. p2pool (Sidechain Node)</text>
+    <text x="412" y="64" font-size="12" fill="#f0f6fc">• P2Pool Sidechain P2P (:37888 Mini)</text>
+    <text x="412" y="92" font-size="12" fill="#f0f6fc">• Tracks PPLNS Window Shares</text>
+    <text x="412" y="120" font-size="12" fill="#58a6ff" font-weight="700">• Local Stratum Server (:3333)</text>
+    <text x="412" y="142" font-size="11" fill="#8b949e">  Requires a 4... Primary Monero Address</text>
+    <text x="412" y="160" font-size="11" fill="#8b949e">  (Subaddresses 8... are not supported)</text>
+    <rect x="412" y="196" width="304" height="36" rx="6" fill="#0d1117" stroke="#238636"/>
+    <text x="422" y="218" font-size="11" fill="#3fb950">p2pool --host 127.0.0.1 --wallet 4... --mini</text>
+
+    <text x="758" y="128" font-size="22" font-weight="700" fill="#3fb950">↔</text>
+
+    <!-- Box 3: XMRig -->
+    <rect x="788" y="0" width="340" height="252" rx="10" fill="#161b22" stroke="#58a6ff" stroke-width="1.5"/>
+    <rect x="788" y="0" width="340" height="38" rx="10" fill="#101f33"/>
+    <text x="806" y="24" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="#58a6ff">3. xmrig (RandomX CPU Miner)</text>
+    <text x="806" y="64" font-size="12" fill="#f0f6fc">• Connects to 127.0.0.1:3333</text>
+    <text x="806" y="92" font-size="12" fill="#f0f6fc">• RandomX 2MB / 1GB HugePages</text>
+    <text x="806" y="120" font-size="12" fill="#d29922" font-weight="700">• Custom Difficulty via User Field</text>
+    <text x="806" y="142" font-size="11" fill="#8b949e">  Optional: -u x+30000 sets static</text>
+    <text x="806" y="160" font-size="11" fill="#8b949e">  Stratum share difficulty per worker</text>
+    <rect x="806" y="196" width="304" height="36" rx="6" fill="#0d1117" stroke="#30363d"/>
+    <text x="816" y="218" font-size="11" fill="#c9d1d9">xmrig -o 127.0.0.1:3333 --randomx-1gb-pages</text>
+  </g>
+</svg>
